@@ -6,3 +6,6 @@ class UrlConstants(Enum):
     
 class HTTPResponse(Enum):
     SUCCESSFUL_RESPONSE: int = 200
+    
+class Parser(Enum):
+    HTML_PARSER: str = "html.parser"

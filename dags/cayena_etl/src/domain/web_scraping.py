@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from collections import Counter
 from typing import List
 import pandas as pd
-from web_scrapping_settings import UrlConstants, HTTPResponse
+from web_scrapping_settings import UrlConstants, HTTPResponse, Parser
 
 def get_all_valid_urls() -> List[str]:
     valid_urls = []
@@ -15,3 +15,9 @@ def get_all_valid_urls() -> List[str]:
         base_url = f"https://books.toscrape.com/catalogue/page-{num_page}.html"
     print(f"{len(valid_urls)} fetched valid pages")
     return valid_urls
+
+def get_and_parse_url(url: str) -> str:
+    result = requests.get(url)
+    soup = BeautifulSoup(result.text, Parser.HTML_PARSER)
+    return soup
+    

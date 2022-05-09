@@ -63,3 +63,6 @@ def count_books_copies(all_tiles: List[str]) -> dict:
 def create_copies_dataframe(repeted_books: dict) -> pd.DataFrame:
   copies_dataframe = pd.DataFrame.from_dict(repeted_books, orient='index', columns = ["copies"]).rename_axis('title').reset_index()
   return copies_dataframe
+
+def save_dataframe_as_csv(dataframe: pd.DataFrame, local_path: str) -> None:
+  dataframe.to_csv(local_path, index=False)

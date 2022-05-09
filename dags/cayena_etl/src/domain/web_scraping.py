@@ -45,3 +45,13 @@ def get_all_books_in_website(all_valid_urls: List[str]) -> List[str]:
     books_in_page = get_all_desired_info(soup, "article", "product_pod")
     all_books_information+=books_in_page
   return all_books_information
+
+def get_title_name_price_lists(all_books_information: List[str]) -> List:
+  all_books_title = []
+  all_books_rating = []
+  all_books_price = []
+  for book in all_books_information:
+    all_books_title.append(get_book_title(book))
+    all_books_rating.append(get_book_rating(book))
+    all_books_price.append(get_book_price(book))
+  return all_books_title, all_books_rating, all_books_price

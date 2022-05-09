@@ -33,3 +33,7 @@ def get_book_title(book_info) -> str:
 def get_book_price(book_info) -> str:
   price = book_info.find("p", class_="price_color").text[2:]
   return price
+
+def get_book_rating(book_info) -> str:
+  rating = book_info.p.get("class")[1]
+  return rating

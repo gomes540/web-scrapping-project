@@ -1,8 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from collections import Counter
 from typing import List
-import pandas as pd
 from web_scrapping_settings import UrlConstants, HTTPResponse, Parser
 
 def get_all_valid_urls() -> List[str]:
@@ -55,14 +53,3 @@ def get_title_name_price_lists(all_books_information: List[str]) -> List:
     all_books_rating.append(get_book_rating(book))
     all_books_price.append(get_book_price(book))
   return all_books_title, all_books_rating, all_books_price
-
-def count_books_copies(all_tiles: List[str]) -> dict:
-  copies_num = dict(Counter(all_tiles))
-  return copies_num
-
-def create_copies_dataframe(repeted_books: dict) -> pd.DataFrame:
-  copies_dataframe = pd.DataFrame.from_dict(repeted_books, orient='index', columns = ["copies"]).rename_axis('title').reset_index()
-  return copies_dataframe
-
-def save_dataframe_as_csv(dataframe: pd.DataFrame, local_path: str) -> None:
-  dataframe.to_csv(local_path, index=False)

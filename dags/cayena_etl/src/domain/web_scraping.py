@@ -55,3 +55,7 @@ def get_title_name_price_lists(all_books_information: List[str]) -> List:
     all_books_rating.append(get_book_rating(book))
     all_books_price.append(get_book_price(book))
   return all_books_title, all_books_rating, all_books_price
+
+def count_books_copies(all_tiles: List[str]) -> dict:
+  copies_num = dict(Counter(all_tiles))
+  return copies_num

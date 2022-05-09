@@ -37,3 +37,11 @@ def get_book_price(book_info) -> str:
 def get_book_rating(book_info) -> str:
   rating = book_info.p.get("class")[1]
   return rating
+
+def get_all_books_in_website(all_valid_urls: List[str]) -> List[str]:
+  all_books_information = []
+  for page_url in all_valid_urls:
+    soup = get_and_parse_url(page_url)
+    books_in_page = get_all_desired_info(soup, "article", "product_pod")
+    all_books_information+=books_in_page
+  return all_books_information

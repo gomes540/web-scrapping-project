@@ -25,4 +25,7 @@ def get_all_desired_info(soup: str, name: str, target_class: str) -> List[str]:
   all_info = soup.find_all(name, class_=target_class)
   print(f"fetched {len(all_info)} informations")
   return all_info
-    
+
+def get_book_title(book_info) -> str:
+  title = book_info.h3.a.get('title')
+  return title

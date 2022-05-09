@@ -20,4 +20,9 @@ def get_and_parse_url(url: str) -> str:
     result = requests.get(url)
     soup = BeautifulSoup(result.text, Parser.HTML_PARSER)
     return soup
+
+def get_all_desired_info(soup: str, name: str, target_class: str) -> List[str]:
+  all_info = soup.find_all(name, class_=target_class)
+  print(f"fetched {len(all_info)} informations")
+  return all_info
     

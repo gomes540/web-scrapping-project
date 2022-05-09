@@ -29,3 +29,7 @@ def get_all_desired_info(soup: str, name: str, target_class: str) -> List[str]:
 def get_book_title(book_info) -> str:
   title = book_info.h3.a.get('title')
   return title
+
+def get_book_price(book_info) -> str:
+  price = book_info.find("p", class_="price_color").text[2:]
+  return price

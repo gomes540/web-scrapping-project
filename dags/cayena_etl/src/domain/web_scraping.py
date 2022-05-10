@@ -11,17 +11,17 @@ def get_all_valid_urls() -> List[str]:
         valid_urls.append(base_url)
         num_page+=1
         base_url = f"https://books.toscrape.com/catalogue/page-{num_page}.html"
-    print(f"{len(valid_urls)} fetched valid pages")
+    print(f"fetched {len(valid_urls)} valid pages")
     return valid_urls
 
 def get_and_parse_url(url: str) -> str:
     result = requests.get(url)
-    soup = BeautifulSoup(result.text, Parser.HTML_PARSER)
+    soup = BeautifulSoup(result.text, Parser.HTML_PARSER.value)
     return soup
 
-def get_all_desired_info(soup: str, name: str, target_class: str) -> List[str]:
+def get_all_desired_info(soup: str, name: str, target_class: str, aux_page_num: int) -> List[str]:
   all_info = soup.find_all(name, class_=target_class)
-  print(f"fetched {len(all_info)} informations")
+  print(f"fetched {len(all_info)} books in page {aux_page_num}")
   return all_info
 
 def get_book_title(book_info) -> str:
@@ -38,10 +38,12 @@ def get_book_rating(book_info) -> str:
 
 def get_all_books_in_website(all_valid_urls: List[str]) -> List[str]:
   all_books_information = []
+  page_number_aux = 1
   for page_url in all_valid_urls:
     soup = get_and_parse_url(page_url)
-    books_in_page = get_all_desired_info(soup, "article", "product_pod")
+    books_in_page = get_all_desired_info(soup, "article", "product_pod", page_number_aux)
     all_books_information+=books_in_page
+    page_number_aux+=1
   return all_books_information
 
 def get_title_name_price_lists(all_books_information: List[str]) -> List:

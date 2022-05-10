@@ -21,3 +21,5 @@ def etl_web_scrapping() -> None:
     # Clean rating column
     full_books_df_clean = df_map_values(full_books_df, 'rating', 'rating', CleanDF.RATING_MAP.value)
     print(full_books_df_clean.head())
+    
+    full_books_df_clean.to_csv("dags/cayena_etl/data/books_dataframe.csv", index=False)

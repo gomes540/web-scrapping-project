@@ -78,9 +78,19 @@ with DAG(
         }
     )
     
+    # transfer local books csv to cayena bucket - cayena-bucket
+    # https://registry.astronomer.io/providers/google/modules/localfilesystemtogcsoperator
+    upload_books_csv_to_gcs_cayena_bucket = LocalFilesystemToGCSOperator(
+        task_id="upload_books_csv_to_gcs_cayena_bucket",
+        src="dags/cayena_etl/data/*",
+        dst="books_data/",
+        bucket=CAYENA_BUCKET,
+        gcp_conn_id="gcp_cayena"
+    )
+    
 
 # [END set tasks]
 
 # [START task sequence]
-start >> create_gcs_cayena_bucket >> run_web_scrapping_script >> end
+start >> create_gcs_cayena_bucket >> run_web_scrapping_script >> upload_books_csv_to_gcs_cayena_bucket >> end
 # [END task sequence]

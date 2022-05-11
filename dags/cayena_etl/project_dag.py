@@ -9,6 +9,7 @@
 # [END documentation]
 
 # [START import module]
+from numpy import source
 from airflow import DAG
 from datetime import datetime
 from airflow.models import Variable
@@ -27,6 +28,7 @@ PROJECT_ID = Variable.get("cayena_project_id")
 CAYENA_BUCKET = Variable.get("cayena_bucket")
 BUCKET_LOCATION = Variable.get("cayena_bucket_location")
 BQ_DATASET_NAME = Variable.get("cayena_bq_dataset_name")
+BQ_TABLE_NAME = Variable.get("cayena_bq_table_name")
 # [END import variables]
 
 # [START default args]
@@ -104,9 +106,30 @@ with DAG(
         python_callable=delete_data_files
     )
     
-
+    # create dataset for google bigquery engine
+    # https://registry.astronomer.io/providers/google/modules/bigquerycreateemptydatasetoperator
+    bq_create_dataset_cayena = BigQueryCreateEmptyDatasetOperator(
+        task_id="bq_create_dataset_cayena",
+        dataset_id=BQ_DATASET_NAME,
+        gcp_conn_id="gcp_cayena"
+    )
+    
+    # ingest data into bigquery engine
+    # https://registry.astronomer.io/providers/google/modules/gcstobigqueryoperator
+    ingest_books_into_table_cayene = GCSToBigQueryOperator(
+        task_id="ingest_books_into_table_cayene",
+        bucket=CAYENA_BUCKET,
+        source_objects=['books-daily-data/*.csv'],
+        destination_project_dataset_table=f"{PROJECT_ID}.{BQ_DATASET_NAME}.{BQ_TABLE_NAME}",
+        source_format='csv',
+        write_disposition="WRITE_TRUNCATE",
+        autodetect=True,
+        skip_leading_rows=1,
+        time_partitioning = {"field":"ingestion_date","type":"DAY"},
+        gcp_conn_id="gcp_cayena",
+    )
 # [END set tasks]
 
 # [START task sequence]
-start >> create_gcs_cayena_bucket >> run_web_scrapping_script >> upload_books_csv_to_gcs_cayena_bucket >> list_files_from_cayena_bucket_books_daily_data >> delete_all_local_data_in_data_folder >> end
+start >> create_gcs_cayena_bucket >> run_web_scrapping_script >> upload_books_csv_to_gcs_cayena_bucket >> list_files_from_cayena_bucket_books_daily_data >> delete_all_local_data_in_data_folder >> bq_create_dataset_cayena >> ingest_books_into_table_cayene >> end
 # [END task sequence]

@@ -83,7 +83,7 @@ with DAG(
     upload_books_csv_to_gcs_cayena_bucket = LocalFilesystemToGCSOperator(
         task_id="upload_books_csv_to_gcs_cayena_bucket",
         src="dags/cayena_etl/data/*",
-        dst="books_data/",
+        dst="books-daily-data/",
         bucket=CAYENA_BUCKET,
         gcp_conn_id="gcp_cayena"
     )

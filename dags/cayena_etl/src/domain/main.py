@@ -24,5 +24,5 @@ def etl_web_scrapping(ingestion_date: str) -> None:
     full_books_df_clean["ingestion_date"] = ingestion_date
     print(full_books_df_clean.head())
     
-    print(f"saving dataframe book locally in: {LocalPath.DATAFRAME_BOOK_PATH.value}")
-    full_books_df_clean.to_csv(LocalPath.DATAFRAME_BOOK_PATH.value, index=False)
+    print(f"saving all books information locally in: {LocalPath.DATAFRAME_BOOK_PATH.value}")
+    full_books_df_clean.to_csv(f"{LocalPath.DATAFRAME_BOOK_PATH.value}/books-data-on-{ingestion_date}.csv", index=False)

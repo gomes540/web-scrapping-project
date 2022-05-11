@@ -1,0 +1,62 @@
+# [START documentation]
+# set up connectivity from airflow to gcp using [key] in json format
+# create new bucket - cayena-bucket [GoogleCloudStorageCreateBucketOperator]
+# transfer local file to cayena bucket [LocalFilesystemToGCSOperator]
+# list objecs on the cayena bucket [GCSListObjectsOperator]
+# create datatset on bigquery [BigQueryCreateEmptyDatasetOperator]
+# transfer file in gcs to bigquery [GCSToBigQueryOperator]
+# verify count of rows (if not null) [BigQueryCheckOperator]
+# [END documentation]
+
+# [START import module]
+from airflow import DAG
+from datetime import datetime
+from airflow.models import Variable
+from airflow.operators.python import PythonOperator
+from airflow.contrib.operators.gcs_operator import GoogleCloudStorageCreateBucketOperator
+from airflow.providers.google.cloud.transfers.local_to_gcs import LocalFilesystemToGCSOperator
+from airflow.providers.google.cloud.operators.gcs import GCSSynchronizeBucketsOperator, GCSListObjectsOperator
+from airflow.providers.google.cloud.operators.bigquery import BigQueryCreateEmptyDatasetOperator, BigQueryCheckOperator
+from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
+from airflow.operators.dummy import DummyOperator
+# [END import module]
+
+# [START import variables]
+PROJECT_ID = Variable.get("cayena_project_id")
+CAYENA_BUCKET = Variable.get("cayena_bucket")
+BUCKET_LOCATION = Variable.get("cayena_bucket_location")
+BQ_DATASET_NAME = Variable.get("cayena_bq_dataset_name")
+# [END import variables]
+
+# [START default args]
+default_args = {
+    'owner': 'Felipe Gomes',
+    'depends_on_past': False
+}
+# [END default args]
+
+# [START instantiate dag]
+with DAG(
+    dag_id="gcp-gcs-bigquery-cayena",
+    tags=['development', 'cloud storage', 'google bigqueury', 'cayena'],
+    default_args=default_args,
+    start_date=datetime(year=2022, month=5, day=5),
+    schedule_interval='@daily',
+    catchup=False,
+    description="ETL Process for Cayena Case"
+) as dag:
+# [END instantiate dag]
+
+# [START set tasks]
+
+    # create start task
+    start = DummyOperator(task_id="start")
+    
+    # create end task
+    end = DummyOperator(task_id="end")
+
+# [END set tasks]
+
+# [START task sequence]
+start >> end
+# [END task sequence]

@@ -1,8 +1,10 @@
 # [START documentation]
 # set up connectivity from airflow to gcp using [key] in json format
 # create new bucket - cayena-bucket [GoogleCloudStorageCreateBucketOperator]
+# run web scrapping script [PythonOperator]
 # transfer local file to cayena bucket [LocalFilesystemToGCSOperator]
 # list objecs on the cayena bucket [GCSListObjectsOperator]
+# delete local data files [PythonOperator]
 # create datatset on bigquery [BigQueryCreateEmptyDatasetOperator]
 # transfer file in gcs to bigquery [GCSToBigQueryOperator]
 # verify count of rows (if not null) [BigQueryCheckOperator]

@@ -128,8 +128,18 @@ with DAG(
         time_partitioning = {"field":"ingestion_date","type":"DAY"},
         gcp_conn_id="gcp_cayena",
     )
+    
+    # check rows inside bigquery table
+    # https://registry.astronomer.io/providers/google/modules/bigquerycheckoperator
+    check_bq_cayena_table_count = BigQueryCheckOperator(
+        task_id="check_bq_cayena_table_count",
+        sql=f"SELECT COUNT(*) FROM {BQ_DATASET_NAME}.{BQ_TABLE_NAME}",
+        use_legacy_sql=False,
+        location="US",
+        gcp_conn_id="gcp_cayena"        
+    )
 # [END set tasks]
 
 # [START task sequence]
-start >> create_gcs_cayena_bucket >> run_web_scrapping_script >> upload_books_csv_to_gcs_cayena_bucket >> list_files_from_cayena_bucket_books_daily_data >> delete_all_local_data_in_data_folder >> bq_create_dataset_cayena >> ingest_books_into_table_cayene >> end
+start >> create_gcs_cayena_bucket >> run_web_scrapping_script >> upload_books_csv_to_gcs_cayena_bucket >> list_files_from_cayena_bucket_books_daily_data >> delete_all_local_data_in_data_folder >> bq_create_dataset_cayena >> ingest_books_into_table_cayene >> check_bq_cayena_table_count >> end
 # [END task sequence]

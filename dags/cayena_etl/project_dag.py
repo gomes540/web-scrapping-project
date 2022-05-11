@@ -73,11 +73,9 @@ with DAG(
         task_id='run_web_scrapping_script',
         python_callable=etl_web_scrapping,
         provide_context=True,
-        # op_kwargs={
-        #     "project_id":Variable.get("dadosfera_project_id"),
-        #     "bucket":LANDING_BUCKET_ZONE,
-        #     "dadosfera_service_account":Variable.get("dadosfera_sa_secret")
-        # }
+        op_kwargs={
+            "ingestion_date":"{{ ds }}"
+        }
     )
     
 

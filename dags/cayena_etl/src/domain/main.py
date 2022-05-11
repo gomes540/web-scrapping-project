@@ -3,7 +3,7 @@ from cayena_etl.src.domain.web_scraping import *
 from cayena_etl.src.domain.transform_data_settings import CleanDF
 from cayena_etl.src.domain.local_loader import LocalPath
 
-def etl_web_scrapping() -> None:
+def etl_web_scrapping(ingestion_date: str) -> None:
     all_valid_urls = get_all_valid_urls()
     
     all_books_information = get_all_books_in_website(all_valid_urls)
@@ -20,7 +20,8 @@ def etl_web_scrapping() -> None:
     full_books_df = books_dataframe.merge(copies_books_aux, left_on='title', right_on='title', how="inner")
     
     # Clean rating column
-    full_books_df_clean = df_map_values(full_books_df, 'rating', 'rating', CleanDF.RATING_MAP.value)
+    full_books_df_clean = df_map_values(full_books_df, 'rating', 'rating', CleanDF.RATING_MAP.value)    
+    full_books_df_clean["ingestion_date"] = ingestion_date
     print(full_books_df_clean.head())
     
     print(f"saving dataframe book locally in: {LocalPath.DATAFRAME_BOOK_PATH.value}")

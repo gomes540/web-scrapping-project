@@ -11,7 +11,6 @@
 # [END documentation]
 
 # [START import module]
-from numpy import source
 from airflow import DAG
 from datetime import datetime
 from airflow.models import Variable

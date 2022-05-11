@@ -54,9 +54,20 @@ with DAG(
     
     # create end task
     end = DummyOperator(task_id="end")
+    
+    # create gcp bucket to cayena - cayena-bucket
+    # https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_modules/airflow/providers/google/cloud/operators/gcs.html
+    create_gcs_cayena_bucket = GoogleCloudStorageCreateBucketOperator(
+        task_id="create_gcs_cayena_bucket",
+        bucket_name=CAYENA_BUCKET,
+        storage_class='STANDARD',
+        location=BUCKET_LOCATION,
+        labels={'env': 'dev', 'team': 'airflow'},
+        gcp_conn_id="gcp_cayena"
+    )
 
 # [END set tasks]
 
 # [START task sequence]
-start >> end
+start >> create_gcs_cayena_bucket >> end
 # [END task sequence]

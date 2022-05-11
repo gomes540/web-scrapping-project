@@ -1,6 +1,6 @@
-from transform_data import *
-from web_scraping import *
-from transform_data_settings import CleanDF
+from cayena_etl.src.domain.transform_data import *
+from cayena_etl.src.domain.web_scraping import *
+from cayena_etl.src.domain.transform_data_settings import CleanDF
 
 def etl_web_scrapping() -> None:
     all_valid_urls = get_all_valid_urls()

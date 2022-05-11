@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from typing import List
-from web_scrapping_settings import UrlConstants, HTTPResponse, Parser
+from cayena_etl.src.domain.web_scrapping_settings import UrlConstants, HTTPResponse, Parser
 
 def get_all_valid_urls() -> List[str]:
     valid_urls = []

@@ -19,6 +19,7 @@ from airflow.providers.google.cloud.operators.gcs import GCSSynchronizeBucketsOp
 from airflow.providers.google.cloud.operators.bigquery import BigQueryCreateEmptyDatasetOperator, BigQueryCheckOperator
 from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
 from airflow.operators.dummy import DummyOperator
+from cayena_etl.src.domain.main import etl_web_scrapping
 # [END import module]
 
 # [START import variables]
@@ -65,9 +66,23 @@ with DAG(
         labels={'env': 'dev', 'team': 'airflow'},
         gcp_conn_id="gcp_cayena"
     )
+    
+    # web scrapping scrit for site - https://books.toscrape.com/catalogue/page-1.html
+    # https://airflow.apache.org/docs/apache-airflow/stable/_api/airflow/operators/python/index.html#airflow.operators.python.PythonOperator
+    run_web_scrapping_script = PythonOperator(
+        task_id='run_web_scrapping_script',
+        python_callable=etl_web_scrapping,
+        provide_context=True,
+        # op_kwargs={
+        #     "project_id":Variable.get("dadosfera_project_id"),
+        #     "bucket":LANDING_BUCKET_ZONE,
+        #     "dadosfera_service_account":Variable.get("dadosfera_sa_secret")
+        # }
+    )
+    
 
 # [END set tasks]
 
 # [START task sequence]
-start >> create_gcs_cayena_bucket >> end
+start >> create_gcs_cayena_bucket >> run_web_scrapping_script >> end
 # [END task sequence]

@@ -16,7 +16,7 @@ from airflow.models import Variable
 from airflow.operators.python import PythonOperator
 from airflow.contrib.operators.gcs_operator import GoogleCloudStorageCreateBucketOperator
 from airflow.providers.google.cloud.transfers.local_to_gcs import LocalFilesystemToGCSOperator
-from airflow.providers.google.cloud.operators.gcs import GCSSynchronizeBucketsOperator, GCSListObjectsOperator
+from airflow.providers.google.cloud.operators.gcs import GCSListObjectsOperator
 from airflow.providers.google.cloud.operators.bigquery import BigQueryCreateEmptyDatasetOperator, BigQueryCheckOperator
 from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
 from airflow.operators.dummy import DummyOperator
@@ -136,7 +136,7 @@ with DAG(
         sql=f"SELECT COUNT(*) FROM {BQ_DATASET_NAME}.{BQ_TABLE_NAME}",
         use_legacy_sql=False,
         location="US",
-        gcp_conn_id="gcp_cayena"        
+        gcp_conn_id="gcp_cayena"
     )
 # [END set tasks]
 

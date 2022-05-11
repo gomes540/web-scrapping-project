@@ -88,9 +88,18 @@ with DAG(
         gcp_conn_id="gcp_cayena"
     )
     
+    # list files inside of gcs bucket - books-daily-data from cayena bucket
+    # https://registry.astronomer.io/providers/google/modules/gcslistobjectsoperator
+    list_files_from_cayena_bucket_books_daily_data = GCSListObjectsOperator(
+        task_id="list_files_from_cayena_bucket_books_daily_data",
+        bucket=CAYENA_BUCKET,
+        prefix="books-daily-data/",
+        gcp_conn_id="gcp_cayena"
+    )
+    
 
 # [END set tasks]
 
 # [START task sequence]
-start >> create_gcs_cayena_bucket >> run_web_scrapping_script >> upload_books_csv_to_gcs_cayena_bucket >> end
+start >> create_gcs_cayena_bucket >> run_web_scrapping_script >> upload_books_csv_to_gcs_cayena_bucket >> list_files_from_cayena_bucket_books_daily_data >> end
 # [END task sequence]

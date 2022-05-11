@@ -1,6 +1,7 @@
 from cayena_etl.src.domain.transform_data import *
 from cayena_etl.src.domain.web_scraping import *
 from cayena_etl.src.domain.transform_data_settings import CleanDF
+from cayena_etl.src.domain.local_loader import LocalPath
 
 def etl_web_scrapping() -> None:
     all_valid_urls = get_all_valid_urls()
@@ -22,4 +23,5 @@ def etl_web_scrapping() -> None:
     full_books_df_clean = df_map_values(full_books_df, 'rating', 'rating', CleanDF.RATING_MAP.value)
     print(full_books_df_clean.head())
     
-    full_books_df_clean.to_csv("dags/cayena_etl/data/books_dataframe.csv", index=False)
+    print(f"saving dataframe book locally in: {LocalPath.DATAFRAME_BOOK_PATH.value}")
+    full_books_df_clean.to_csv(LocalPath.DATAFRAME_BOOK_PATH.value, index=False)

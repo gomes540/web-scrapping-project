@@ -140,6 +140,11 @@ For GCP we'll need to create a Service Account with specifics Roles, for that:
      Table content in a specific partition:
      
      ![image](https://user-images.githubusercontent.com/72705868/168212974-1f886c20-d450-446b-90af-6528d92812b9.png)
+     
+     
+## Dashboard
+
+   https://datastudio.google.com/reporting/c50ede6d-998f-407e-b2e2-c25c70003702
 
      
      

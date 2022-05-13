@@ -1,6 +1,6 @@
 # Cayena Project
 
-This project consists in scrapping the website https://books.toscrape.com/, extract all book's information and deliver it to data analysts. For that we need to build a pipeline based on Data Engineer concepts. In this project we will use Python, Airflow and Google Cloud Platform stack.
+This project consists in scrapping the website https://books.toscrape.com/, extract all book's information and deliver it to data analysts. For that we need to build a pipeline based on Data Engineer concepts. In this project we will use Python, Airflow, Google Cloud Platform, Docker.
 
 ## Airflow setup
  1. Initialize the database:
@@ -24,7 +24,7 @@ For GCP we'll need to create a Service Account with specifics Roles, for that:
 
     https://console.cloud.google.com/home/dashboard
     
-2. Go to Service Account in IAM & Admin:
+2. Go to `IAM & Admin` -> `Service Account`:
 
     ![image](images/gcp_setup_1.png)
     
@@ -32,7 +32,7 @@ For GCP we'll need to create a Service Account with specifics Roles, for that:
 
     ![image](images/gcp_setup_2.png)
 
-    1. Choose the Service Account display name and descripion (Optional)
+    1. Choose the Service Account display name and description (Optional)
 
         ![image](images/gcp_setup_3.png) 
     
@@ -65,7 +65,7 @@ For GCP we'll need to create a Service Account with specifics Roles, for that:
         ![image](images/configure_airflow_2.png)
 
     
-    2. Create a new variables called `cayena_project_id` and paste your GCP project id
+    2. Create a new variable called `cayena_project_id` and paste your GCP project id
 
         ![image](images/configure_airflow_3.png)
         
@@ -86,7 +86,7 @@ For GCP we'll need to create a Service Account with specifics Roles, for that:
       
       `Keyfile JSON: Your Service Account Key file`
       
-      Note: Remember that your created and downloaded your Key in the step `Google Cloud Platform setup` 
+      Note: Remember that you created and downloaded your Key in the step `Google Cloud Platform setup` 
       
       
       ![image](images/configure_airflow_6.png)
@@ -94,7 +94,7 @@ For GCP we'll need to create a Service Account with specifics Roles, for that:
  
 ## Run the Aiflow DAG
 
-   After all those configuration steps now, in the Aiflow Web UI, you can see the dag. Congratulations!
+   After all those configuration steps, now, in the Aiflow Web UI, you can see the dag. Congratulations!
    
    ![image](images/run_airflow_1.png)
    

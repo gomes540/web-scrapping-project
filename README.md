@@ -90,6 +90,40 @@ For GCP we'll need to create a Service Account with specifics Roles, for that:
       
       
       ![image](https://user-images.githubusercontent.com/72705868/168207721-bfbb84fa-450e-431f-9cf3-9abc5c1262a3.png)
+      
+ 
+## Run the Aiflow DAG
+
+   After all those configuration steps now, in the Aiflow Web UI, you can see the dag. Congratulations!
+   
+   ![image](https://user-images.githubusercontent.com/72705868/168208816-2dc0c669-5fbe-4fe2-a6bf-e5ca36c30ecc.png)
+   
+   Note: To run your dag, first you need to verify if your dag is unpaused
+   
+   ![image](https://user-images.githubusercontent.com/72705868/168209068-aeb05766-0b5a-43f7-8d95-43312b650541.png)
+
+   To start your dag you can click here:
+   
+   ![image](https://user-images.githubusercontent.com/72705868/168209230-4db24bf7-2fd4-47bf-9451-b2b068510b4b.png)
+
+
+## See the results
+
+1. Results in Airflow
+
+   Click in the dag and you can see all tasks and if they were a success or a failure
+   
+   ![image](https://user-images.githubusercontent.com/72705868/168209599-8a6cda65-213a-47af-a441-26c3d867d0c9.png)
+   
+   Also you can see the tasks dependencies accessing the `Graph` button
+   
+   ![image](https://user-images.githubusercontent.com/72705868/168210222-34f8a984-f742-44c6-9797-2d980157c7aa.png)
+
+
+
+
+   
+   
 
       
       

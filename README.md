@@ -146,11 +146,12 @@ For GCP we'll need to create a Service Account with specifics Roles, for that:
 
    https://datastudio.google.com/reporting/c50ede6d-998f-407e-b2e2-c25c70003702
 
-     
-     
 
-     
-     
+## Diagram
+
+   ![image](https://user-images.githubusercontent.com/72705868/168224732-dcd10ff5-7b1f-4aa1-8a85-de4c2db62010.png)
+
+
 
 
 

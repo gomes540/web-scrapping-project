@@ -16,6 +16,9 @@ Now your airflow should be running.
 3. To access the Airflow Web UI you should access your local host port 8080:
 
     http://localhost:8080/
+    
+    `Username: airflow`  
+    `Password: airflow`
 
 ## Google Cloud Platform setup
 For GCP we'll need to create a Service Account with specifics Roles, for that:

@@ -48,6 +48,53 @@ For GCP we'll need to create a Service Account with specifics Roles, for that:
         
         It will download your json file for this Service Account. Save it because you'll need it to configure your GCP Connection in Airflow.
 
+## Configure Airflow
+
+1. Variable
+
+    1. You'll need to import the variables in JSON file to your airflow. Download the file and extract the json file.
+    
+       file: [cayena_variables.zip](https://github.com/gomes540/cayena/files/8683926/cayena_variables.zip)
+    
+       Go to `Admin` -> `Variables` -> `Choose file`
+    
+       ![image](https://user-images.githubusercontent.com/72705868/168206789-e6d98edd-0ed1-4c4d-9db9-aed63ede58b6.png)
+       
+    2. Get your GCP project id
+
+        ![image](https://user-images.githubusercontent.com/72705868/168207227-c2d8bbae-94f4-4f28-81d4-33a97d44dfb4.png)
+
+    
+    2. Create a new variables called `cayena_project_id` and paste your GCP project id
+
+        ![image](https://user-images.githubusercontent.com/72705868/168207321-8f9bcf32-ac61-41ba-8dee-86eaea2aae5a.png)
+        
+        ![image](https://user-images.githubusercontent.com/72705868/168207411-6bf2b261-fdcc-49a3-baf1-fb92f49e01d4.png)
+
+
+2. Connections
+
+   1. Create a new connection for your GCP project called `gcp_cayena`
+
+      ![image](https://user-images.githubusercontent.com/72705868/168207602-e98d0631-c734-4be9-8a3b-cc2171d2f3b6.png)
+      
+      Connection Configuration:
+      
+      `Connection Id: gcp_cayena`
+      
+      `Connection Type: Google Cloud`
+      
+      `Keyfile JSON: Your Service Account Key file`
+      
+      Note: Remember that your created and downloaded your Key in the step `Google Cloud Platform setup` 
+      
+      
+      ![image](https://user-images.githubusercontent.com/72705868/168207721-bfbb84fa-450e-431f-9cf3-9abc5c1262a3.png)
+
+      
+      
+
+
 
 
 

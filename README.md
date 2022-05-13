@@ -118,6 +118,36 @@ For GCP we'll need to create a Service Account with specifics Roles, for that:
    Also you can see the tasks dependencies accessing the `Graph` button
    
    ![image](https://user-images.githubusercontent.com/72705868/168210222-34f8a984-f742-44c6-9797-2d980157c7aa.png)
+   
+2. Google Cloud Platform
+
+  1. Data Lake
+     
+     Accessing `Google Cloud Storage (GCS)` you'll see the bucket `cayena-bucket`
+     
+     ![image](https://user-images.githubusercontent.com/72705868/168210811-c1d5fc9c-fca6-40a5-9b9a-9728b747fa6d.png)
+     
+     Inside this bucket you can see a folder called `books-daily-data` which contains all the data extracted in the proccess
+     
+     ![image](https://user-images.githubusercontent.com/72705868/168211101-64347273-1bae-44b1-a108-466606810662.png)
+     
+  2. Data Warehouse
+
+     Accessing the `BigQuery` you can see all the data in a partitioned table called `books_history`
+     
+     ![image](https://user-images.githubusercontent.com/72705868/168211518-5bf4a315-5621-4131-bced-e55a3fd148f5.png)
+     
+     Table content in a specific partition:
+     
+     ![image](https://user-images.githubusercontent.com/72705868/168212974-1f886c20-d450-446b-90af-6528d92812b9.png)
+
+     
+     
+
+     
+     
+
+
 
 
 

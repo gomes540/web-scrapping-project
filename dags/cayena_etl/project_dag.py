@@ -42,7 +42,7 @@ default_args = {
 # [START instantiate dag]
 with DAG(
     dag_id="gcp-gcs-bigquery-cayena",
-    tags=['development', 'cloud storage', 'google bigqueury', 'cayena'],
+    tags=['development', 'cloud storage', 'google bigquery', 'cayena'],
     default_args=default_args,
     start_date=datetime(year=2022, month=5, day=5),
     schedule_interval='@daily',

@@ -3,10 +3,17 @@
 This project consists in scrapping the website https://books.toscrape.com/, extract all book's information and deliver it to data analysts. For that we need to build a pipeline based on Data Engineer concepts. In this project we will use Python, Airflow, Google Cloud Platform, Docker.
 
 ## Airflow setup
- 1. Setting the right airflow user:
-    ```
-    echo -e "AIRFLOW_UID=$(id -u)" > .env
-    ```
+ 1. Setting the right airflow user:  
+    1. For linux users:
+        ```
+        echo -e "AIRFLOW_UID=$(id -u)" > .env
+        ```
+    2. For other operating systems users:
+      
+        You have to create a `.env` file in the same folder as your `docker-compose.yaml` is placed with this content:
+            
+            AIRFLOW_UID=50000
+
 
  2. Initialize the database:
     ```pyhon

@@ -1,8 +1,8 @@
 from cayena_etl.src.domain.transform_data import *
 from cayena_etl.src.domain.web_scraping import *
 from cayena_etl.src.domain.transform_data_settings import CleanDF
-import tempfile
 from airflow.providers.google.cloud.hooks.gcs import GCSHook
+import tempfile
 
 def etl_web_scrapping(ingestion_date: str, bucket_name: str) -> None:
     all_valid_urls = get_all_valid_urls()
@@ -26,7 +26,8 @@ def etl_web_scrapping(ingestion_date: str, bucket_name: str) -> None:
     print(full_books_df_clean.head())
     
     with tempfile.TemporaryDirectory() as tmp_dir:
-        full_books_df_clean.to_csv(f"{tmp_dir}/books-data-on-{ingestion_date}.csv", index=False)
+        file_path = f"{tmp_dir}/books-daily-data.csv"
+        full_books_df_clean.to_csv(file_path, index=False)
         hook = GCSHook(gcp_conn_id="gcp_cayena")
-        hook.upload(bucket_name=bucket_name, object_name=f"books-daily-data/books-data-on-{ingestion_date}.csv", filename=f"{tmp_dir}/books-data-on-{ingestion_date}.csv")
+        hook.upload(bucket_name=bucket_name, object_name=f"books-daily-data/books-data-on-{ingestion_date}.csv", filename=file_path)
     

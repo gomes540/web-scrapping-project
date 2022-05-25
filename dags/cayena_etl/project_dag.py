@@ -2,7 +2,6 @@
 # set up connectivity from airflow to gcp using [key] in json format
 # create new bucket - cayena-bucket [GoogleCloudStorageCreateBucketOperator]
 # run web scrapping script [PythonOperator]
-# transfer local file to cayena bucket [LocalFilesystemToGCSOperator]
 # list objecs on the cayena bucket [GCSListObjectsOperator]
 # delete local data files [PythonOperator]
 # create datatset on bigquery [BigQueryCreateEmptyDatasetOperator]
@@ -16,12 +15,11 @@ from datetime import datetime
 from airflow.models import Variable
 from airflow.operators.python import PythonOperator
 from airflow.contrib.operators.gcs_operator import GoogleCloudStorageCreateBucketOperator
-from airflow.providers.google.cloud.transfers.local_to_gcs import LocalFilesystemToGCSOperator
 from airflow.providers.google.cloud.operators.gcs import GCSListObjectsOperator
 from airflow.providers.google.cloud.operators.bigquery import BigQueryCreateEmptyDatasetOperator, BigQueryCheckOperator
 from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
 from airflow.operators.dummy import DummyOperator
-from cayena_etl.src.domain.main import etl_web_scrapping, delete_data_files
+from cayena_etl.src.domain.main import etl_web_scrapping
 # [END import module]
 
 # [START import variables]
@@ -77,18 +75,9 @@ with DAG(
         python_callable=etl_web_scrapping,
         provide_context=True,
         op_kwargs={
-            "ingestion_date":"{{ ds }}"
+            "ingestion_date":"{{ ds }}",
+            "bucket_name":CAYENA_BUCKET
         }
-    )
-    
-    # transfer local books csv to cayena bucket - cayena-bucket
-    # https://registry.astronomer.io/providers/google/modules/localfilesystemtogcsoperator
-    upload_books_csv_to_gcs_cayena_bucket = LocalFilesystemToGCSOperator(
-        task_id="upload_books_csv_to_gcs_cayena_bucket",
-        src="dags/cayena_etl/data/*",
-        dst="books-daily-data/",
-        bucket=CAYENA_BUCKET,
-        gcp_conn_id="gcp_cayena"
     )
     
     # list files inside of gcs bucket - books-daily-data from cayena bucket
@@ -98,13 +87,6 @@ with DAG(
         bucket=CAYENA_BUCKET,
         prefix="books-daily-data/",
         gcp_conn_id="gcp_cayena"
-    )
-    
-    # delete all data in data folder - path: dags/cayena_etl/data
-    # https://airflow.apache.org/docs/apache-airflow/stable/_api/airflow/operators/python/index.html#airflow.operators.python.PythonOperator
-    delete_all_local_data_in_data_folder = PythonOperator(
-        task_id='delete_all_local_data_in_data_folder',
-        python_callable=delete_data_files
     )
     
     # create dataset for google bigquery engine
@@ -142,5 +124,5 @@ with DAG(
 # [END set tasks]
 
 # [START task sequence]
-start >> create_gcs_cayena_bucket >> run_web_scrapping_script >> upload_books_csv_to_gcs_cayena_bucket >> list_files_from_cayena_bucket_books_daily_data >> delete_all_local_data_in_data_folder >> bq_create_dataset_cayena >> ingest_books_into_table_cayene >> check_bq_cayena_table_count >> end
+start >> create_gcs_cayena_bucket >> run_web_scrapping_script >> list_files_from_cayena_bucket_books_daily_data >> bq_create_dataset_cayena >> ingest_books_into_table_cayene >> check_bq_cayena_table_count >> end
 # [END task sequence]

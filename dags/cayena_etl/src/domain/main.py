@@ -1,11 +1,10 @@
 from cayena_etl.src.domain.transform_data import *
 from cayena_etl.src.domain.web_scraping import *
 from cayena_etl.src.domain.transform_data_settings import CleanDF
-from cayena_etl.src.domain.local_loader import LocalPath
-import os
-import glob
+import tempfile
+from airflow.providers.google.cloud.hooks.gcs import GCSHook
 
-def etl_web_scrapping(ingestion_date: str) -> None:
+def etl_web_scrapping(ingestion_date: str, bucket_name: str) -> None:
     all_valid_urls = get_all_valid_urls()
     
     all_books_information = get_all_books_in_website(all_valid_urls)
@@ -26,11 +25,8 @@ def etl_web_scrapping(ingestion_date: str) -> None:
     full_books_df_clean["ingestion_date"] = ingestion_date
     print(full_books_df_clean.head())
     
-    print(f"saving all books information locally in: {LocalPath.DATAFRAME_BOOK_PATH.value}")
-    full_books_df_clean.to_csv(f"{LocalPath.DATAFRAME_BOOK_PATH.value}/books-data-on-{ingestion_date}.csv", index=False)
-    
-def delete_data_files():
-    files = glob.glob(f"{LocalPath.DATAFRAME_BOOK_PATH.value}/*")
-    for f in files:
-        os.remove(f)
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        full_books_df_clean.to_csv(f"{tmp_dir}/books-data-on-{ingestion_date}.csv", index=False)
+        hook = GCSHook(gcp_conn_id="gcp_cayena")
+        hook.upload(bucket_name=bucket_name, object_name=f"books-daily-data/books-data-on-{ingestion_date}.csv", filename=f"{tmp_dir}/books-data-on-{ingestion_date}.csv")
     

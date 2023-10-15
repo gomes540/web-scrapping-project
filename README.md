@@ -1,4 +1,4 @@
-# Cayena Project
+# Web Scraping Project
 
 This project consists in scrapping the website https://books.toscrape.com/, extract all book's information and deliver it to data analysts. For that we need to build a pipeline based on Data Engineer concepts. In this project we will use Python, Airflow, Google Cloud Platform, Docker.
 
